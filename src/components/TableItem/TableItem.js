@@ -4,7 +4,7 @@ const TableItem = ({ data }) => {
   const {id, name, country, job, lastSalary, dateOfApplication, isHaveExpirience} = data;
   return (
     <tr>
-      <th>{id}</th>
+      <td>{id}</td>
       <td>{name}</td>
       <td>{country}</td>
       <td>{job}</td>
