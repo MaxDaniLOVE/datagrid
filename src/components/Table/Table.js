@@ -1,19 +1,10 @@
 /* eslint-disable no-array-constructor */
 import React from 'react';
+import TableItem from '../TableItem';
 import './Table.scss';
 
 const Table = ({ data }) => {
-  const rows = data.map(({id, name, country, job, lastSalary, dateOfApplication, isHaveExpirience}) => (
-    <tr key={id}>
-      <th>{id}</th>
-      <td>{name}</td>
-      <td>{country}</td>
-      <td>{job}</td>
-      <td>{lastSalary}</td>
-      <td>{dateOfApplication}</td>
-      <td>{isHaveExpirience ? 'Yes' : 'No'}</td>
-    </tr>
-  ))
+  const rows = data.map(el => <TableItem data={el} key={el.id} />)
   return (
     <div className="table-wrapper">
       <table className="table table-hover container-list">

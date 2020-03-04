@@ -13,10 +13,7 @@ class App extends Component {
   dataService = new GetData();
 
   componentDidMount() {
-    this.props.addNewData(this.dataService.dataService())
-    this.setState({
-      data: this.dataService.dataService()
-    })
+    this.props.addNewData(this.dataService.dataService());
   }
   
 
