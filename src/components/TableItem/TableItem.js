@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setActiveRow } from '../../actions';
+import './TableItem.scss';
 
 const TableItem = ({ data, activeRow, addActiveRow }) => {
   const {id, name, country, job, lastSalary, dateOfApplication, isHaveExpirience} = data;
+  const newClassName = activeRow === id ? 'active-row' : ''; 
   return (
-    <tr onClick={() => addActiveRow(id)}>
+    <tr className={newClassName} onClick={() => addActiveRow(id)}>
       <td>{id}</td>
       <td>{name}</td>
       <td>{country}</td>

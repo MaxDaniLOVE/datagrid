@@ -17,6 +17,12 @@ const reducer = (state = initialState, action) => {
         activePage: action.payload
       }
     case 'SET_ACTIVE_ROW':
+      if (action.payload === state.activeRow) {
+        return {
+          ...state,
+          activeRow: null
+        }
+      }
       return {
         ...state,
         activeRow: action.payload
