@@ -24,7 +24,6 @@ const Table = ({ data }) => {
         </tbody>
       </table> 
     </div>
-    
   );
 }
 

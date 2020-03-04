@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Table from '../Table';
 import GetData from '../../services/getData';
+import PageSwitcher from '../PageSwitcher';
 import { addNewData } from '../../actions';
 import './App.scss';
 
@@ -18,19 +19,22 @@ class App extends Component {
   
 
   render() {
-    const { data } = this.props;
+    const { data, activePage } = this.props;
+    const displayedData = data.slice((activePage - 1) * 100, activePage * 100)
     return (
       <div className="container">
         <h1>Data grid</h1>
-        <Table data={data} />
+        <Table data={displayedData} />
+        <PageSwitcher />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ data }) => {
+const mapStateToProps = ({ data, activePage }) => {
   return {
-    data
+    data,
+    activePage
   }
 }
 

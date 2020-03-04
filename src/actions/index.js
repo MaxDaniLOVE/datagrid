@@ -5,6 +5,13 @@ const addNewData = (data) => {
   }
 }
 
+const setActivePage = (page) => {
+  return {
+    type: 'SET_ACTIVE_PAGE',
+    payload: page
+  }
+}
+
 export {
-  addNewData,
+  addNewData, setActivePage
 };
