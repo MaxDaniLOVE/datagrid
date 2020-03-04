@@ -12,6 +12,13 @@ const setActivePage = (page) => {
   }
 }
 
+const setActiveRow = (id) => {
+  return {
+    type: 'SET_ACTIVE_ROW',
+    payload: id
+  }
+}
+
 export {
-  addNewData, setActivePage
+  addNewData, setActivePage, setActiveRow
 };

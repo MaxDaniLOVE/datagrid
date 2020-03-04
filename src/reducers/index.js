@@ -1,6 +1,7 @@
 const initialState = {
   data: [],
-  activePage: 1
+  activePage: 1,
+  activeRow: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -14,6 +15,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         activePage: action.payload
+      }
+    case 'SET_ACTIVE_ROW':
+      return {
+        ...state,
+        activeRow: action.payload
       }
     default:
       return state;
