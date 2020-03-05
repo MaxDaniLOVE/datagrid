@@ -26,6 +26,13 @@ const deleteRow = (id) => {
   }
 }
 
+const searchByInput = (value) => {
+  return {
+    type: 'SEARCH_BY_INPUT',
+    payload: value
+  }
+}
+
 export {
-  addNewData, setActivePage, setActiveRow, deleteRow
+  addNewData, setActivePage, setActiveRow, deleteRow, searchByInput
 };

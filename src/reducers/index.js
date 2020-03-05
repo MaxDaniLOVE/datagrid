@@ -1,7 +1,8 @@
 const initialState = {
   data: [],
   activePage: 1,
-  activeRow: null
+  activeRow: null,
+  isFiltered: false
 }
 
 const deleteRow = (state, id) => {
@@ -15,6 +16,22 @@ const deleteRow = (state, id) => {
   return {
     ...state,
     data: newData
+  }
+}
+
+const filterByInput = (state, value) => {
+  const filteredData = state.data.filter(({country, name, job}) => {
+    return country.toLowerCase().includes(value)
+            || name.toLowerCase().includes(value)
+            || job.toLowerCase().includes(value)
+  });
+  if (!value.length) {
+    return {...state, isFiltered: false}
+  }
+  return {
+    ...state,
+    filteredData,
+    isFiltered: true
   }
 }
 
@@ -42,7 +59,9 @@ const reducer = (state = initialState, action) => {
         activeRow: action.payload
       }
     case 'DELETE_ROW':
-      return deleteRow(state, action.payload)
+      return deleteRow(state, action.payload);
+    case 'SEARCH_BY_INPUT':
+      return filterByInput(state, action.payload)
     default:
       return state;
   }

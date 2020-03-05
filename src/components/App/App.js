@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Table from '../Table';
 import GetData from '../../services/getData';
 import PageSwitcher from '../PageSwitcher';
-import { addNewData } from '../../actions';
+import { addNewData, searchByInput } from '../../actions';
 import './App.scss';
 
 class App extends Component {
@@ -19,22 +19,30 @@ class App extends Component {
   
 
   render() {
-    const { data, activePage } = this.props;
-    const displayedData = data.slice((activePage - 1) * 100, activePage * 100)
+    const { data, activePage, onInputChange, isFiltered, filteredData } = this.props;
+    const displayedData = !isFiltered
+      ? data.slice((activePage - 1) * 100, activePage * 100)
+      : filteredData.slice((activePage - 1) * 100, activePage * 100);
     return (
       <div className="container">
         <h1>Data grid</h1>
         <Table data={displayedData} />
         <PageSwitcher />
+        <div className="form-group">
+          <h5>Search:</h5>
+          <input type="text" className="form-control" placeholder="Type name, country or job" onChange={(e) => onInputChange(e)} />
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ data, activePage }) => {
+const mapStateToProps = ({ data, activePage, isFiltered, filteredData }) => {
   return {
     data,
-    activePage
+    activePage,
+    isFiltered,
+    filteredData
   }
 }
 
@@ -42,6 +50,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addNewData: (data) => {
       dispatch(addNewData(data))
+    },
+    onInputChange: (e) => {
+      dispatch(searchByInput(e.target.value.toLowerCase()))
     },
   }
 }
