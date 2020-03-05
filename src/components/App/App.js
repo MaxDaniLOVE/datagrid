@@ -20,14 +20,13 @@ class App extends Component {
 
   render() {
     const { data, activePage, onInputChange, isFiltered, filteredData } = this.props;
-    const displayedData = !isFiltered
-      ? data.slice((activePage - 1) * 100, activePage * 100)
-      : filteredData.slice((activePage - 1) * 100, activePage * 100);
+    const allData = !isFiltered ? data : filteredData;
+    const displayedData = allData.slice((activePage - 1) * 100, activePage * 100);
     return (
       <div className="container">
         <h1>Data grid</h1>
         <Table data={displayedData} />
-        <PageSwitcher />
+        <PageSwitcher pages={Math.ceil(allData.length / 100)} />
         <div className="form-group">
           <h5>Search:</h5>
           <input type="text" className="form-control" placeholder="Type name, country or job" onChange={(e) => onInputChange(e)} />

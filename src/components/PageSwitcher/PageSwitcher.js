@@ -2,22 +2,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setActivePage } from '../../actions';
 
-const PageSwitcher = ({ switchPage, activePage }) => {
-  const btns = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const PageSwitcher = ({ switchPage, activePage, pages }) => {
+  const btns = new Array(pages).fill(null);
+  
   return (
     <div className="btn-group mr-2" role="group" aria-label="First group">
       {
-        btns.map(el => {
-          
-          const className = activePage === el ? 'success' : 'secondary'
+        btns.map((el, idx) => {
+          const newEl = idx + 1;
+          const className = activePage === newEl ? 'success' : 'secondary'
           return (
             <button
               type="button"
               className={`btn btn-${className}`}
-              key={el}
-              onClick={() => switchPage(el)}
+              key={newEl}
+              onClick={() => switchPage(newEl)}
             >
-              {el}
+              {newEl}
             </button>
 )
         })
