@@ -6,7 +6,7 @@ export default class GetData {
                   .map((e, idx) => {
                     const date = new Date() - Math.ceil(Math.random() * 3100000000);
                     return {
-                      id: (idx + 1).toLocaleString(),
+                      id: idx + 1,
                       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
                       country: faker.address.country(),
                       job: faker.name.jobType(),

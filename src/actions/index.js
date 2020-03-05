@@ -33,6 +33,13 @@ const searchByInput = (value) => {
   }
 }
 
+const setActiveSort = (value) => {
+  return {
+    type: 'SET_ACTIVE_SORT',
+    payload: value
+  }
+}
+
 export {
-  addNewData, setActivePage, setActiveRow, deleteRow, searchByInput
+  addNewData, setActivePage, setActiveRow, deleteRow, searchByInput, setActiveSort
 };

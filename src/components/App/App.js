@@ -1,9 +1,10 @@
+/* eslint-disable no-nested-ternary */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Table from '../Table';
 import GetData from '../../services/getData';
 import PageSwitcher from '../PageSwitcher';
-import { addNewData, searchByInput } from '../../actions';
+import { addNewData, searchByInput, setActiveSort } from '../../actions';
 import './App.scss';
 
 class App extends Component {
@@ -19,13 +20,15 @@ class App extends Component {
   
 
   render() {
-    const { data, activePage, onInputChange, isFiltered, filteredData } = this.props;
-    const allData = !isFiltered ? data : filteredData;
+    const { data, activePage, onInputChange, isFiltered, filteredData, setActiveSortFunc, activeSort, isSorted, sortedData } = this.props;
+    const allData = !isFiltered && !isSorted ? data : 
+                    isFiltered ? filteredData :
+                    isSorted ? sortedData : [];
     const displayedData = allData.slice((activePage - 1) * 100, activePage * 100);
     return (
       <div className="container">
         <h1>Data grid</h1>
-        <Table data={displayedData} />
+        <Table data={displayedData} activeSort={activeSort} setActiveSort={setActiveSortFunc} />
         <PageSwitcher pages={Math.ceil(allData.length / 100)} />
         <div className="form-group">
           <h5>Search:</h5>
@@ -36,12 +39,15 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ data, activePage, isFiltered, filteredData }) => {
+const mapStateToProps = ({ data, activePage, isFiltered, filteredData, activeSort, isSorted, sortedData }) => {
   return {
     data,
     activePage,
     isFiltered,
-    filteredData
+    filteredData,
+    activeSort,
+    isSorted,
+    sortedData
   }
 }
 
@@ -52,6 +58,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onInputChange: (e) => {
       dispatch(searchByInput(e.target.value.toLowerCase()))
+    },
+    setActiveSortFunc: (sort) => {
+      dispatch(setActiveSort(sort))
     },
   }
 }

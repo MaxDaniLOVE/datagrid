@@ -2,7 +2,10 @@ const initialState = {
   data: [],
   activePage: 1,
   activeRow: null,
-  isFiltered: false
+  isFiltered: false,
+  activeSort: {},
+  sortedData: [],
+  isSorted: false
 }
 
 const deleteRow = (state, id) => {
@@ -35,6 +38,22 @@ const filterByInput = (state, value) => {
   }
 }
 
+const sortFunction = (state, activeSort) => {
+  const { key, index } = activeSort;
+  const helpingArray = [...state.data];
+  const sortedData = helpingArray.sort((a, b) => {
+    if (a[key] > b[key]) return 1 * index;
+    if (a[key] < b[key]) return -1 * index;
+    return 0;
+  });
+  return {
+    ...state,
+    sortedData,
+    activeSort,
+    isSorted: true
+  }
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'DATA_LOADED':
@@ -61,7 +80,9 @@ const reducer = (state = initialState, action) => {
     case 'DELETE_ROW':
       return deleteRow(state, action.payload);
     case 'SEARCH_BY_INPUT':
-      return filterByInput(state, action.payload)
+      return filterByInput(state, action.payload);
+    case 'SET_ACTIVE_SORT':
+      return sortFunction(state, action.payload);
     default:
       return state;
   }
