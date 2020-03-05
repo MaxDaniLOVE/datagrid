@@ -34,6 +34,7 @@ const Table = ({ data, setActiveSort, activeSort }) => {
                     <span className="table-header_btns-span">
                       <i
                         onClick={() => {
+                          if (activeBtn === key) {setActiveBtn(null)};
                           setActiveBtn(key)
                           setActiveSort({key, index: 1})
                         }}
@@ -41,6 +42,7 @@ const Table = ({ data, setActiveSort, activeSort }) => {
                       />
                       <i
                         onClick={() => {
+                          if (activeBtn === key) {setActiveBtn(null)};
                           setActiveBtn(key)
                           setActiveSort({key, index: -1})
                         }}

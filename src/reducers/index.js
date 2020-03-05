@@ -40,6 +40,7 @@ const filterByInput = (state, value) => {
 
 const sortFunction = (state, activeSort) => {
   const { key, index } = activeSort;
+  if (state.activeSort.key === key && state.activeSort.index === index) return {...state, isSorted: false}
   const helpingArray = [...state.data];
   const sortedData = helpingArray.sort((a, b) => {
     if (a[key] > b[key]) return 1 * index;
