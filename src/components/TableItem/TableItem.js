@@ -1,14 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setActiveRow } from '../../actions';
+import { setActiveRow, deleteRow } from '../../actions';
 import './TableItem.scss';
 
-const TableItem = ({ data, activeRow, addActiveRow }) => {
+const TableItem = ({ data, activeRow, addActiveRow, deleteActiveRow }) => {
   const {id, name, country, job, lastSalary, dateOfApplication, isHaveExpirience} = data;
-  const newClassName = activeRow === id ? 'active-row' : ''; 
+  const newClassName = activeRow === id ? 'active-row' : '';
+  const displayedElement = activeRow === id 
+    ? (
+      <button
+        type="button"
+        className="btn btn-danger"
+        onClick={() => deleteActiveRow(id)}
+      >
+        X
+      </button>
+)
+    : id
   return (
     <tr className={newClassName} onClick={() => addActiveRow(id)}>
-      <td>{id}</td>
+      <td>{displayedElement}</td>
       <td>{name}</td>
       <td>{country}</td>
       <td>{job}</td>
@@ -28,6 +39,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addActiveRow: (id) => {
       dispatch(setActiveRow(id))
+    },
+    deleteActiveRow: (id) => {
+      dispatch(deleteRow(id))
     },
   }
 }

@@ -19,6 +19,13 @@ const setActiveRow = (id) => {
   }
 }
 
+const deleteRow = (id) => {
+  return {
+    type: 'DELETE_ROW',
+    payload: id
+  }
+}
+
 export {
-  addNewData, setActivePage, setActiveRow
+  addNewData, setActivePage, setActiveRow, deleteRow
 };

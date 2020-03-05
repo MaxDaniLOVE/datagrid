@@ -4,6 +4,20 @@ const initialState = {
   activeRow: null
 }
 
+const deleteRow = (state, id) => {
+  const { data } = state;
+  const deletedIdx = data.findIndex((el) => el.id === id);
+  data.splice(deletedIdx, 1)
+    const newData = [
+      ...data.slice(0, deletedIdx),
+      ...data.slice(deletedIdx)
+    ]
+  return {
+    ...state,
+    data: newData
+  }
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'DATA_LOADED':
@@ -27,6 +41,8 @@ const reducer = (state = initialState, action) => {
         ...state,
         activeRow: action.payload
       }
+    case 'DELETE_ROW':
+      return deleteRow(state, action.payload)
     default:
       return state;
   }
