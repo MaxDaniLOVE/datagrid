@@ -46,7 +46,6 @@ const sortFunction = (state, activeSort) => {
 }
 
 const booleanFilter = (state, value) => {
-  console.log(value);
   if (value === '-' ) {
     return {
       ...state,
@@ -75,8 +74,7 @@ const deleteRow = (state, id) => {
   if (state.isFiltered) { // change filtered data
     if (typeof(state.filter) === 'string') {
       return filterByInput(state, state.filter)
-    } 
-    console.log(state.filter);
+    }
     return booleanFilter(state, state.filter)
   }
   if (state.sortedData.length !== newData.length) { // change sorted data
