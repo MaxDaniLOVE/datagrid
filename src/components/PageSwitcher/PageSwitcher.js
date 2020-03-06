@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setActivePage } from '../../actions';
+import './PageSwitcher.scss';
 
 const PageSwitcher = ({ switchPage, activePage, pages }) => {
   const btns = new Array(pages).fill(null);
   
   return (
-    <div className="btn-group mr-2" role="group" aria-label="First group">
+    <div className="btn-group mr-2 switcher" role="group" aria-label="First group">
       {
         btns.map((el, idx) => {
           const newEl = idx + 1;

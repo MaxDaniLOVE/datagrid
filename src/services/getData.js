@@ -10,8 +10,8 @@ export default class GetData {
                       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
                       country: faker.address.country(),
                       job: faker.name.jobType(),
-                      lastSalary: faker.finance.amount(),
-                      dateOfApplication: new Date(date).toLocaleDateString(),
+                      lastSalary: parseInt(faker.finance.amount(), 10),
+                      dateOfApplication: date,
                       isHaveExpirience: faker.random.boolean(),
                     }
                   });

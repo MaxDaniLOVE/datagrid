@@ -6,7 +6,8 @@ import './TableItem.scss';
 const TableItem = ({ data, activeRow, addActiveRow, deleteActiveRow }) => {
   const {id, name, country, job, lastSalary, dateOfApplication, isHaveExpirience} = data;
   const newClassName = activeRow === id ? 'active-row' : '';
-  const displayedElement = activeRow === id 
+  const date = new Date(dateOfApplication).toLocaleDateString();
+  const displayedElement = activeRow === id
     ? (
       <button
         type="button"
@@ -16,15 +17,15 @@ const TableItem = ({ data, activeRow, addActiveRow, deleteActiveRow }) => {
         X
       </button>
 )
-    : id
+    : id.toLocaleString()
   return (
     <tr className={newClassName} onClick={() => addActiveRow(id)}>
       <td>{displayedElement}</td>
       <td>{name}</td>
       <td>{country}</td>
       <td>{job}</td>
-      <td>{lastSalary}</td>
-      <td>{dateOfApplication}</td>
+      <td>{`${lastSalary} $`}</td>
+      <td>{date}</td>
       <td>{isHaveExpirience ? 'Yes' : 'No'}</td>
     </tr>
   );

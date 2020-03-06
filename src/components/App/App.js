@@ -28,12 +28,12 @@ class App extends Component {
     return (
       <div className="container">
         <h1>Data grid</h1>
-        <Table data={displayedData} activeSort={activeSort} setActiveSort={setActiveSortFunc} />
-        <PageSwitcher pages={Math.ceil(allData.length / 100)} />
         <div className="form-group">
           <h5>Search:</h5>
           <input type="text" className="form-control" placeholder="Type name, country or job" onChange={(e) => onInputChange(e)} />
         </div>
+        <Table data={displayedData} activeSort={activeSort} setActiveSort={setActiveSortFunc} />
+        <PageSwitcher pages={Math.ceil(allData.length / 100)} />
       </div>
     );
   }

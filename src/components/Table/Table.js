@@ -10,13 +10,13 @@ const Table = ({ data, setActiveSort, activeSort }) => {
   const [activeBtn, setActiveBtn] = useState(null);
   const rows = data.map(el => <TableItem data={el} key={el.id} />)
   const headerItems = [
-    {key: 'id', label: '#'},
+    {key: 'id', label: 'ID:'},
     {key: 'name', label: 'Name:'},
     {key: 'country', label: 'Country:'},
     {key: 'job', label: 'Job:'},
     {key: 'lastSalary', label: 'Last salary:'},
     {key: 'dateOfApplication', label: 'Date of application:'},
-    {key: 'isHaveExpirience', label: 'Expirience:'}
+    {key: 'isHaveExpirience', label: 'Is have expirience in JS:'}
   ];
 
   return (
@@ -28,8 +28,14 @@ const Table = ({ data, setActiveSort, activeSort }) => {
               headerItems.map(({label, key}) => {
                 const newUpClassName = activeBtn === key && activeSort.index === 1 ? 'active' : '';
                 const newDownClassName = activeBtn === key && activeSort.index === -1 ? 'active' : '';
-                const sortBtns = label === 'Expirience:'
-                  ? null
+                const sortBtns = key === 'isHaveExpirience'
+                  ? (
+                    <select className="custom-select">
+                      <option selected="">-</option>
+                      <option value="1">Yes</option>
+                      <option value="2">No</option>
+                    </select>
+                  )
                   : (
                     <span className="table-header_btns-span">
                       <i
