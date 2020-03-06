@@ -40,6 +40,13 @@ const setActiveSort = (value) => {
   }
 }
 
+const booleanFilter = (value) => {
+  return {
+    type: 'BOOLEAN_FILTER',
+    payload: value
+  }
+}
+
 export {
-  addNewData, setActivePage, setActiveRow, deleteRow, searchByInput, setActiveSort
+  addNewData, setActivePage, setActiveRow, deleteRow, searchByInput, setActiveSort, booleanFilter
 };

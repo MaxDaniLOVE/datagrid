@@ -3,10 +3,12 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import TableItem from '../TableItem';
+import { booleanFilter } from '../../actions';
 import './Table.scss';
 
-const Table = ({ data, setActiveSort, activeSort }) => {
+const Table = ({ data, setActiveSort, activeSort, filterByBoolean }) => {
   const [activeBtn, setActiveBtn] = useState(null);
   const rows = data.map(el => <TableItem data={el} key={el.id} />)
   const headerItems = [
@@ -30,10 +32,10 @@ const Table = ({ data, setActiveSort, activeSort }) => {
                 const newDownClassName = activeBtn === key && activeSort.index === -1 ? 'active' : '';
                 const sortBtns = key === 'isHaveExpirience'
                   ? (
-                    <select className="custom-select">
-                      <option selected="">-</option>
-                      <option value="1">Yes</option>
-                      <option value="2">No</option>
+                    <select className="custom-select" onChange={(e) => {filterByBoolean(e.target.value)}}>
+                      <option defaultValue value="-">-</option>
+                      <option value>Yes</option>
+                      <option value={false}>No</option>
                     </select>
                   )
                   : (
@@ -75,4 +77,12 @@ const Table = ({ data, setActiveSort, activeSort }) => {
   );
 }
 
-export default Table;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    filterByBoolean: (sort) => {
+      dispatch(booleanFilter(sort))
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Table);

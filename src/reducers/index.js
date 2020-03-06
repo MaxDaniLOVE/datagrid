@@ -45,6 +45,25 @@ const sortFunction = (state, activeSort) => {
   }
 }
 
+const booleanFilter = (state, value) => {
+  console.log(value);
+  if (value === '-' ) {
+    return {
+      ...state,
+      isFiltered: false,
+      filter: value
+    }
+  }
+  const filter = value === 'true' || true;
+  const filteredData = state.data.filter(({isHaveExpirience}) => isHaveExpirience === filter);
+  return {
+    ...state,
+    filteredData,
+    isFiltered: true,
+    filter
+  }
+}
+
 const deleteRow = (state, id) => {
   const { data } = state;
   const deletedIdx = data.findIndex((el) => el.id === id);
@@ -54,7 +73,11 @@ const deleteRow = (state, id) => {
       ...data.slice(deletedIdx)
     ]
   if (state.isFiltered) { // change filtered data
-    return filterByInput(state, state.filter)
+    if (typeof(state.filter) === 'string') {
+      return filterByInput(state, state.filter)
+    } 
+    console.log(state.filter);
+    return booleanFilter(state, state.filter)
   }
   if (state.sortedData.length !== newData.length) { // change sorted data
     return sortFunction(state, state.activeSort)
@@ -94,6 +117,8 @@ const reducer = (state = initialState, action) => {
       return filterByInput(state, action.payload);
     case 'SET_ACTIVE_SORT':
       return sortFunction(state, action.payload);
+    case 'BOOLEAN_FILTER':
+      return booleanFilter(state, action.payload)
     default:
       return state;
   }
