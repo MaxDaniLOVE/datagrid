@@ -27,11 +27,9 @@ const filterByInput = (state, value) => {
 
 const sortFunction = (state, activeSort) => {
   const { key, index } = activeSort;
-  if (state.activeSort.key === key
+  if (state.activeSort.key === key // checks if pressed same btn twice
         && state.activeSort.index === index
-        && !Object.keys(activeSort).length
-        && state.activeSort.index + index !== 0
-        && state.activeSort.index
+        && state.sortedData.length === state.data.length // checks if deleted item from original array
       ) return {...state, isSorted: false, activeSort: {}}
   const helpingArray = [...state.data];
   const sortedData = helpingArray.sort((a, b) => {
@@ -55,10 +53,10 @@ const deleteRow = (state, id) => {
       ...data.slice(0, deletedIdx),
       ...data.slice(deletedIdx)
     ]
-  if (state.isFiltered) {
+  if (state.isFiltered) { // change filtered data
     return filterByInput(state, state.filter)
   }
-  if (state.isSorted) {
+  if (state.sortedData.length !== newData.length) { // change sorted data
     return sortFunction(state, state.activeSort)
   }
   return {
