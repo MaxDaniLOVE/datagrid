@@ -53,7 +53,12 @@ const booleanFilter = (state, value) => {
       filter: value
     }
   }
-  const filter = value === 'true' || true;
+  let filter;
+  if (typeof(value) === 'string') {
+    filter = value === 'true';
+  } else {
+    filter = value
+  }
   const filteredData = state.data.filter(({isHaveExpirience}) => isHaveExpirience === filter);
   return {
     ...state,
