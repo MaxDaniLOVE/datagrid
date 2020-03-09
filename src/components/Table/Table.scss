@@ -11,6 +11,9 @@
     }
     thead th:nth-child(1) {
       width: 5%;
+      position: sticky;
+      left: 0;
+      z-index: 9;
     }
     
     thead th:nth-child(2) {
@@ -53,5 +56,14 @@
   }
   th, td{
     padding: 5px !important;
+    
+  }
+  tr :nth-child(1){
+    position: sticky;
+    left: 0;
+    background-color: #dee2e6;
+    button{
+      background-color: #dc3545;
+    }
   }
 }
