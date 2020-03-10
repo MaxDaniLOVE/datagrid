@@ -5,7 +5,7 @@ import Table from '../Table';
 import GetData from '../../services/getData';
 import PageSwitcher from '../PageSwitcher';
 import Checkboxes from '../Checkboxes';
-import { addNewData, searchByInput, setActiveSort } from '../../actions';
+import { addNewData, searchByInput, setActiveSort, windowLoaded } from '../../actions';
 import './App.scss';
 
 class App extends Component {
@@ -17,6 +17,7 @@ class App extends Component {
 
   componentDidMount() {
     this.props.addNewData(this.dataService.dataService());
+    this.props.loaded()
   }
   
 
@@ -63,6 +64,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setActiveSortFunc: (sort) => {
       dispatch(setActiveSort(sort))
+    },
+    loaded: () => {
+      dispatch(windowLoaded())
     },
   }
 }

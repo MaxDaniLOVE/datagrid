@@ -54,7 +54,21 @@ const setColumn = (value) => {
   }
 }
 
+const windowLoaded = () => {
+  return {
+    type: 'WINDOW_LOADED'
+  }
+}
+
 
 export {
-  addNewData, setActivePage, setActiveRow, deleteRow, searchByInput, setActiveSort, booleanFilter, setColumn
+  addNewData,
+  setActivePage,
+  setActiveRow,
+  deleteRow,
+  searchByInput,
+  setActiveSort,
+  booleanFilter,
+  setColumn,
+  windowLoaded
 };

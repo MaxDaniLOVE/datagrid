@@ -47,8 +47,12 @@ const filterByInput = (state, value) => {
             || job.toLowerCase().includes(value)
   });
   if (!value.length) {
-    return {...state, isFiltered: false}
+    localStorage.setItem('isFiltered', false)
+    localStorage.setItem('filter', '')
+    return {...state, isFiltered: false, filter: ''}
   }
+  localStorage.setItem('isFiltered', true)
+  localStorage.setItem('filter', value)
   return {
     ...state,
     filteredData,
@@ -62,13 +66,19 @@ const sortFunction = (state, activeSort) => {
   if (state.activeSort.key === key // checks if pressed same btn twice
         && state.activeSort.index === index
         && state.sortedData.length === state.data.length // checks if deleted item from original array
-      ) return {...state, isSorted: false, activeSort: {}}
+      ) {
+        localStorage.setItem('isSorted', false)
+        localStorage.setItem('activeSort', JSON.stringify({}))
+        return {...state, isSorted: false, activeSort: {}}
+      }
   const helpingArray = [...state.data];
   const sortedData = helpingArray.sort((a, b) => {
     if (a[key] > b[key]) return 1 * index;
     if (a[key] < b[key]) return -1 * index;
     return 0;
   });
+  localStorage.setItem('isSorted', true)
+  localStorage.setItem('activeSort', JSON.stringify(activeSort))
   return {
     ...state,
     sortedData,
@@ -79,6 +89,8 @@ const sortFunction = (state, activeSort) => {
 
 const booleanFilter = (state, value) => {
   if (value === '-' ) {
+    localStorage.setItem('isFiltered', false)
+    localStorage.setItem('filter', value)
     return {
       ...state,
       isFiltered: false,
@@ -92,6 +104,8 @@ const booleanFilter = (state, value) => {
     filter = value
   }
   const filteredData = state.data.filter(({isHaveExpirience}) => isHaveExpirience === filter);
+  localStorage.setItem('isFiltered', true)
+  localStorage.setItem('filter', value)
   return {
     ...state,
     filteredData,
@@ -124,6 +138,12 @@ const deleteRow = (state, id) => {
 }
 
 const setColumn = (state, value) => {
+  if (typeof value === 'object') {
+    return {
+      ...state,
+      checkboxes: value
+    }
+  }
   const {checkboxes} = state
   const itemIdx = checkboxes.findIndex((el) => el.value === value);
   const newItem = {
@@ -136,10 +156,27 @@ const setColumn = (state, value) => {
     newItem,
     ...checkboxes.slice(itemIdx + 1)
   ]
+  localStorage.setItem('checkboxes', JSON.stringify(newCheckboxes))
   return {
     ...state,
     checkboxes: newCheckboxes
   }
+}
+
+const previousSession = (state) => {
+  const {isFiltered, filter, activeSort, isSorted, checkboxes } = localStorage;
+  if (isFiltered || filter) {
+    return filter === 'true' || filter ===  'false'
+      ? booleanFilter(state, filter)
+      : filterByInput(state, filter);
+  }
+  if (isSorted || activeSort) {
+    return sortFunction(state, JSON.parse(activeSort));
+  }
+  if (checkboxes) {
+    return setColumn(state, JSON.parse(checkboxes));
+  }
+  return state;
 }
 
 const reducer = (state = initialState, action) => {
@@ -175,6 +212,8 @@ const reducer = (state = initialState, action) => {
       return booleanFilter(state, action.payload);
     case 'SET_DISPLAYED_COLUMN':
       return setColumn(state, action.payload)
+    case 'WINDOW_LOADED':
+      return previousSession(state)
     default:
       return state;
   }

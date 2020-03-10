@@ -20,7 +20,6 @@ const Table = ({ data, setActiveSort, activeSort, filterByBoolean, checkboxes })
     {key: 'dateOfApplication', label: 'Date of application:'},
     {key: 'isHaveExpirience', label: 'Is have expirience in JS:'}
   ];
-
   return (
     <div className="table-wrapper">
       <table className="table table-hover container-list">
