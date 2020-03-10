@@ -165,12 +165,14 @@ const setColumn = (state, value) => {
 
 const previousSession = (state) => {
   const {isFiltered, filter, activeSort, isSorted, checkboxes } = localStorage;
-  if (isFiltered || isSorted || Object.keys(checkboxes).length) {
+  const newFilter = filter || '';
+  const newActiveSort = activeSort ? JSON.parse(activeSort) : {};
+  if ((isFiltered && newFilter) || isSorted || checkboxes) {
     const stateWithCheckboxes = setColumn(state, JSON.parse(checkboxes));
-    const stateWithFilter = filter === 'true' || filter ===  'false'
-    ? booleanFilter(stateWithCheckboxes, filter)
-    : filterByInput(stateWithCheckboxes, filter);
-    return sortFunction(stateWithFilter, JSON.parse(activeSort));
+    const stateWithFilter = newFilter === 'true' || newFilter ===  'false'
+    ? booleanFilter(stateWithCheckboxes, newFilter)
+    : filterByInput(stateWithCheckboxes, newFilter);
+    return sortFunction(stateWithFilter, newActiveSort);
   }
   return state;
 }
