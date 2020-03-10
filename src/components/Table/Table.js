@@ -8,9 +8,9 @@ import TableItem from '../TableItem';
 import { booleanFilter } from '../../actions';
 import './Table.scss';
 
-const Table = ({ data, setActiveSort, activeSort, filterByBoolean }) => {
+const Table = ({ data, setActiveSort, activeSort, filterByBoolean, checkboxes }) => {
   const [activeBtn, setActiveBtn] = useState(null);
-  const rows = data.map(el => <TableItem data={el} key={el.id} />)
+  const rows = data.map(el => <TableItem data={el} key={el.id} checkboxes={checkboxes} />)
   const headerItems = [
     {key: 'id', label: 'ID:'},
     {key: 'name', label: 'Name:'},
@@ -27,7 +27,15 @@ const Table = ({ data, setActiveSort, activeSort, filterByBoolean }) => {
         <thead>
           <tr>
             {
-              headerItems.map(({label, key}) => {
+              headerItems.map(({label, key}, idx) => {
+                let headerStyle;
+                if (idx !== 0) {
+                  headerStyle = checkboxes[idx - 1].value === key
+                              && !checkboxes[idx - 1].isChecked
+                                ? {display: 'none'} 
+                                : {}
+                  console.log(headerStyle);
+                }
                 const newUpClassName = activeBtn === key && activeSort.index === 1 ? 'active' : '';
                 const newDownClassName = activeBtn === key && activeSort.index === -1 ? 'active' : '';
                 const sortBtns = key === 'isHaveExpirience'
@@ -59,7 +67,7 @@ const Table = ({ data, setActiveSort, activeSort, filterByBoolean }) => {
                     </span>
                     )
                       return (
-                        <th key={key}>
+                        <th key={key} style={headerStyle}>
                           {label}
                           {sortBtns}
                         </th>
@@ -77,6 +85,12 @@ const Table = ({ data, setActiveSort, activeSort, filterByBoolean }) => {
   );
 }
 
+const mapStateToProps = ({ checkboxes }) => {
+  return {
+    checkboxes
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     filterByBoolean: (sort) => {
@@ -85,4 +99,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Table);
+export default connect(mapStateToProps, mapDispatchToProps)(Table);

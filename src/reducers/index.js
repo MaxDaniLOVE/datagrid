@@ -5,7 +5,39 @@ const initialState = {
   isFiltered: false,
   activeSort: {},
   sortedData: [],
-  isSorted: false
+  isSorted: false,
+  checkboxes: [
+    {
+      isChecked: true,
+      value: 'name',
+      label: 'Name'
+    },
+    {
+      isChecked: true,
+      value: 'country',
+      label: 'Country'
+    },
+    {
+      isChecked: true,
+      value: 'job',
+      label: 'Job'
+    },
+    {
+      isChecked: true,
+      value: 'lastSalary',
+      label: 'Last salary'
+    },
+    {
+      isChecked: true,
+      value: 'dateOfApplication',
+      label: 'Date of application'
+    },
+    {
+      isChecked: true,
+      value: 'isHaveExpirience',
+      label: 'Expirience in JS'
+    },
+  ]
 }
 
 const filterByInput = (state, value) => {
@@ -91,6 +123,25 @@ const deleteRow = (state, id) => {
   }
 }
 
+const setColumn = (state, value) => {
+  const {checkboxes} = state
+  const itemIdx = checkboxes.findIndex((el) => el.value === value);
+  const newItem = {
+      isChecked: !checkboxes[itemIdx].isChecked,
+      value,
+      label: checkboxes[itemIdx].label
+    }
+  const newCheckboxes = [
+    ...checkboxes.slice(0, itemIdx),
+    newItem,
+    ...checkboxes.slice(itemIdx + 1)
+  ]
+  return {
+    ...state,
+    checkboxes: newCheckboxes
+  }
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'DATA_LOADED':
@@ -121,7 +172,9 @@ const reducer = (state = initialState, action) => {
     case 'SET_ACTIVE_SORT':
       return sortFunction(state, action.payload);
     case 'BOOLEAN_FILTER':
-      return booleanFilter(state, action.payload)
+      return booleanFilter(state, action.payload);
+    case 'SET_DISPLAYED_COLUMN':
+      return setColumn(state, action.payload)
     default:
       return state;
   }

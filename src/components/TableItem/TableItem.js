@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { setActiveRow, deleteRow } from '../../actions';
 import './TableItem.scss';
 
-const TableItem = ({ data, activeRow, addActiveRow, deleteActiveRow }) => {
+const TableItem = ({ data, activeRow, addActiveRow, deleteActiveRow, checkboxes }) => {
   const {id, name, country, job, lastSalary, dateOfApplication, isHaveExpirience} = data;
   const newClassName = activeRow === id ? 'active-row' : '';
   const date = new Date(dateOfApplication).toLocaleDateString();
@@ -17,16 +17,20 @@ const TableItem = ({ data, activeRow, addActiveRow, deleteActiveRow }) => {
         X
       </button>
 )
-    : id.toLocaleString()
+    : id.toLocaleString();
+  const setStyles = (idx) => {
+    const style = !checkboxes[idx].isChecked ? {display: 'none'} : {}
+    return style
+  }
   return (
     <tr className={newClassName} onClick={() => addActiveRow(id)}>
       <td>{displayedElement}</td>
-      <td>{name}</td>
-      <td>{country}</td>
-      <td>{job}</td>
-      <td>{`${lastSalary} $`}</td>
-      <td>{date}</td>
-      <td>{isHaveExpirience ? 'Yes' : 'No'}</td>
+      <td style={setStyles(0)}>{name}</td>
+      <td style={setStyles(1)}>{country}</td>
+      <td style={setStyles(2)}>{job}</td>
+      <td style={setStyles(3)}>{`${lastSalary} $`}</td>
+      <td style={setStyles(4)}>{date}</td>
+      <td style={setStyles(5)}>{isHaveExpirience ? 'Yes' : 'No'}</td>
     </tr>
   );
 }

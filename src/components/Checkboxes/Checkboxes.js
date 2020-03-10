@@ -1,34 +1,41 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { setColumn } from '../../actions';
 
-const Checkboxes = () => {
+const Checkboxes = ({ checkboxes, showColumn }) => {
   return (
     <div className="form-group">
-      <div className="custom-control custom-checkbox">
-        <input type="checkbox" className="custom-control-input" id="check1" />
-        <label className="custom-control-label" htmlFor="check1">Name</label>
-      </div>
-      <div className="custom-control custom-checkbox">
-        <input type="checkbox" className="custom-control-input" id="check2" />
-        <label className="custom-control-label" htmlFor="check2">Country</label>
-      </div>
-      <div className="custom-control custom-checkbox">
-        <input type="checkbox" className="custom-control-input" id="check3" />
-        <label className="custom-control-label" htmlFor="check3">Job</label>
-      </div>
-      <div className="custom-control custom-checkbox">
-        <input type="checkbox" className="custom-control-input" id="check4" />
-        <label className="custom-control-label" htmlFor="check4">Last salary</label>
-      </div>
-      <div className="custom-control custom-checkbox">
-        <input type="checkbox" className="custom-control-input" id="check5" />
-        <label className="custom-control-label" htmlFor="check5">Date of application</label>
-      </div>
-      <div className="custom-control custom-checkbox">
-        <input type="checkbox" className="custom-control-input" id="check6" />
-        <label className="custom-control-label" htmlFor="check6">Expirience in JS</label>
-      </div>
+      {
+        checkboxes.map(({isChecked, value, label}) => (
+          <div className="custom-control custom-checkbox" key={label}>
+            <input
+              value={value}
+              type="checkbox"
+              className="custom-control-input"
+              checked={isChecked}
+              id={label}
+              onChange={() => showColumn(value)}
+            />
+            <label className="custom-control-label" htmlFor={label}>{label}</label>
+          </div>
+        ))
+      }
     </div>
   );
 }
 
-export default Checkboxes;
+const mapStateToProps = ({ checkboxes }) => {
+  return {
+    checkboxes
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    showColumn: (value) => {
+      dispatch(setColumn(value))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkboxes);

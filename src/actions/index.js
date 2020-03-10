@@ -47,6 +47,14 @@ const booleanFilter = (value) => {
   }
 }
 
+const setColumn = (value) => {
+  return {
+    type: 'SET_DISPLAYED_COLUMN',
+    payload: value
+  }
+}
+
+
 export {
-  addNewData, setActivePage, setActiveRow, deleteRow, searchByInput, setActiveSort, booleanFilter
+  addNewData, setActivePage, setActiveRow, deleteRow, searchByInput, setActiveSort, booleanFilter, setColumn
 };
