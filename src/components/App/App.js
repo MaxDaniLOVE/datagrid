@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Table from '../Table';
 import GetData from '../../services/getData';
 import PageSwitcher from '../PageSwitcher';
+import Checkboxes from '../Checkboxes';
 import { addNewData, searchByInput, setActiveSort } from '../../actions';
 import './App.scss';
 
@@ -34,6 +35,7 @@ class App extends Component {
         </div>
         <Table data={displayedData} activeSort={activeSort} setActiveSort={setActiveSortFunc} />
         <PageSwitcher pages={Math.ceil(allData.length / 100)} />
+        <Checkboxes />
       </div>
     );
   }
