@@ -90,7 +90,7 @@ const sortFunction = (state, activeSort) => {
 const booleanFilter = (state, value) => {
   if (value === '-' ) {
     localStorage.setItem('isFiltered', false)
-    localStorage.setItem('filter', value)
+    localStorage.setItem('filter', '')
     return {
       ...state,
       isFiltered: false,
@@ -165,16 +165,12 @@ const setColumn = (state, value) => {
 
 const previousSession = (state) => {
   const {isFiltered, filter, activeSort, isSorted, checkboxes } = localStorage;
-  if (isFiltered || filter) {
-    return filter === 'true' || filter ===  'false'
-      ? booleanFilter(state, filter)
-      : filterByInput(state, filter);
-  }
-  if (isSorted || activeSort) {
-    return sortFunction(state, JSON.parse(activeSort));
-  }
-  if (checkboxes) {
-    return setColumn(state, JSON.parse(checkboxes));
+  if (isFiltered || isSorted || Object.keys(checkboxes).length) {
+    const stateWithCheckboxes = setColumn(state, JSON.parse(checkboxes));
+    const stateWithFilter = filter === 'true' || filter ===  'false'
+    ? booleanFilter(stateWithCheckboxes, filter)
+    : filterByInput(stateWithCheckboxes, filter);
+    return sortFunction(stateWithFilter, JSON.parse(activeSort));
   }
   return state;
 }

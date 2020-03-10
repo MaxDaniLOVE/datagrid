@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/aria-role */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import TableItem from '../TableItem';
 import { booleanFilter } from '../../actions';
@@ -20,6 +20,11 @@ const Table = ({ data, setActiveSort, activeSort, filterByBoolean, checkboxes })
     {key: 'dateOfApplication', label: 'Date of application:'},
     {key: 'isHaveExpirience', label: 'Is have expirience in JS:'}
   ];
+  useEffect(() => {
+    if (localStorage.isSorted) {
+      setActiveBtn(JSON.parse(localStorage.activeSort).key)
+    }
+  }, [])
   return (
     <div className="table-wrapper">
       <table className="table table-hover container-list">
@@ -34,8 +39,11 @@ const Table = ({ data, setActiveSort, activeSort, filterByBoolean, checkboxes })
                                 ? {display: 'none'} 
                                 : {}
                 }
-                const newUpClassName = activeBtn === key && activeSort.index === 1 ? 'active' : '';
-                const newDownClassName = activeBtn === key && activeSort.index === -1 ? 'active' : '';
+                const StorageSort = localStorage.isSorted ? JSON.parse(localStorage.activeSort) : {}
+                const newUpClassName = activeBtn === key && activeSort.index === 1
+                      || StorageSort.key === key && StorageSort.index === 1 ? 'active' : '';
+                const newDownClassName = activeBtn === key && activeSort.index === -1
+                      || StorageSort.key === key && StorageSort.index === -1 ? 'active' : '';
                 const sortBtns = key === 'isHaveExpirience'
                   ? (
                     <select className="custom-select" onChange={(e) => {filterByBoolean(e.target.value)}}>
