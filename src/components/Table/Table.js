@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import TableItem from '../TableItem';
 import { booleanFilter } from '../../actions';
+import setActiveFilter from '../../utils/setActiveFilter';
 import './Table.scss';
 
 const Table = ({ data, setActiveSort, activeSort, filterByBoolean, checkboxes }) => {
@@ -25,6 +26,7 @@ const Table = ({ data, setActiveSort, activeSort, filterByBoolean, checkboxes })
       setActiveBtn(JSON.parse(localStorage.activeSort).key)
     }
   }, [])
+  setActiveFilter(); // use to set active boolean filter
   return (
     <div className="table-wrapper">
       <table className="table table-hover container-list">
