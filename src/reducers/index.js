@@ -167,8 +167,9 @@ const previousSession = (state) => {
   const {isFiltered, filter, activeSort, isSorted, checkboxes } = localStorage;
   const newFilter = filter || '';
   const newActiveSort = activeSort ? JSON.parse(activeSort) : {};
+  const newCheckboxes = checkboxes ? JSON.parse(checkboxes) : state.checkboxes
   if ((isFiltered && newFilter) || isSorted || checkboxes) {
-    const stateWithCheckboxes = setColumn(state, JSON.parse(checkboxes));
+    const stateWithCheckboxes = setColumn(state, newCheckboxes);
     const stateWithFilter = newFilter === 'true' || newFilter ===  'false'
     ? booleanFilter(stateWithCheckboxes, newFilter)
     : filterByInput(stateWithCheckboxes, newFilter);
