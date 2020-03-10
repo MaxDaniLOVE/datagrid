@@ -34,7 +34,6 @@ const Table = ({ data, setActiveSort, activeSort, filterByBoolean, checkboxes })
                               && !checkboxes[idx - 1].isChecked
                                 ? {display: 'none'} 
                                 : {}
-                  console.log(headerStyle);
                 }
                 const newUpClassName = activeBtn === key && activeSort.index === 1 ? 'active' : '';
                 const newDownClassName = activeBtn === key && activeSort.index === -1 ? 'active' : '';
