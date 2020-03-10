@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setColumn } from '../../actions';
+import './Checkboxes.scss';
 
 const Checkboxes = ({ checkboxes, showColumn }) => {
   return (
-    <div className="form-group">
+    <div className="form-group checkboxes">
       {
         checkboxes.map(({isChecked, value, label}) => (
           <div className="custom-control custom-checkbox" key={label}>
