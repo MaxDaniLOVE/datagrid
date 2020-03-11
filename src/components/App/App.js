@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Table from '../Table';
 import GetData from '../../services/getData';
+import csvMaker from '../../utils/csvMaker';
 import Checkboxes from '../Checkboxes';
 import { addNewData, searchByInput, setActiveSort, windowLoaded } from '../../actions';
 import './App.scss';
@@ -21,14 +22,11 @@ class App extends Component {
   
 
   render() {
-    const { data, onInputChange, isFiltered, filteredData, setActiveSortFunc, activeSort, isSorted, sortedData } = this.props;
+    const { data, onInputChange, isFiltered, filteredData, setActiveSortFunc, activeSort, isSorted, sortedData, checkboxes } = this.props;
     const allData = !isFiltered && !isSorted ? data : 
                     isFiltered ? filteredData :
                     isSorted ? sortedData : [];
-    const csvData = "data:text/csv;charset=utf-8,"
-    + 'id, name, country, job, last salary, date of application, expirience in JS\n'
-    + allData.map(e => Object.values(e).join(",")).join("\n");
-    const encodedUri = encodeURI(csvData);
+    const encodedUri = csvMaker(allData, checkboxes);
     const defaultValue = localStorage.filter === 'true' || localStorage.filter === 'false' ? '' : localStorage.filter;
     return (
       <div className="container">
@@ -49,14 +47,15 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ data, isFiltered, filteredData, activeSort, isSorted, sortedData }) => {
+const mapStateToProps = ({ data, isFiltered, filteredData, activeSort, isSorted, sortedData, checkboxes }) => {
   return {
     data,
     isFiltered,
     filteredData,
     activeSort,
     isSorted,
-    sortedData
+    sortedData,
+    checkboxes
   }
 }
 
