@@ -1,6 +1,5 @@
 const initialState = {
   data: [],
-  activePage: 1,
   activeRow: null,
   isFiltered: false,
   activeSort: {},
@@ -184,11 +183,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         data: action.payload
-      }
-    case 'SET_ACTIVE_PAGE':
-      return {
-        ...state,
-        activePage: action.payload
       }
     case 'SET_ACTIVE_ROW':
       if (action.payload === state.activeRow) {

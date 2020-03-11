@@ -5,13 +5,6 @@ const addNewData = (data) => {
   }
 }
 
-const setActivePage = (page) => {
-  return {
-    type: 'SET_ACTIVE_PAGE',
-    payload: page
-  }
-}
-
 const setActiveRow = (id) => {
   return {
     type: 'SET_ACTIVE_ROW',
@@ -63,7 +56,6 @@ const windowLoaded = () => {
 
 export {
   addNewData,
-  setActivePage,
   setActiveRow,
   deleteRow,
   searchByInput,

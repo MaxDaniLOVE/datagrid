@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Table from '../Table';
 import GetData from '../../services/getData';
-import PageSwitcher from '../PageSwitcher';
 import Checkboxes from '../Checkboxes';
 import { addNewData, searchByInput, setActiveSort, windowLoaded } from '../../actions';
 import './App.scss';
@@ -22,14 +21,13 @@ class App extends Component {
   
 
   render() {
-    const { data, activePage, onInputChange, isFiltered, filteredData, setActiveSortFunc, activeSort, isSorted, sortedData } = this.props;
+    const { data, onInputChange, isFiltered, filteredData, setActiveSortFunc, activeSort, isSorted, sortedData } = this.props;
     const allData = !isFiltered && !isSorted ? data : 
                     isFiltered ? filteredData :
                     isSorted ? sortedData : [];
-    const displayedData = allData.slice((activePage - 1) * 100, activePage * 100);
     const csvData = "data:text/csv;charset=utf-8,"
     + 'id, name, country, job, last salary, date of application, expirience in JS\n'
-    + displayedData.map(e => Object.values(e).join(",")).join("\n");
+    + allData.map(e => Object.values(e).join(",")).join("\n");
     const encodedUri = encodeURI(csvData);
     const defaultValue = localStorage.filter === 'true' || localStorage.filter === 'false' ? '' : localStorage.filter;
     return (
@@ -44,18 +42,16 @@ class App extends Component {
             </a>
           </div>
         </div>
-        <Table data={displayedData} activeSort={activeSort} setActiveSort={setActiveSortFunc} />
-        <PageSwitcher pages={Math.ceil(allData.length / 100)} />
+        <Table data={allData} activeSort={activeSort} setActiveSort={setActiveSortFunc} />
         <Checkboxes />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ data, activePage, isFiltered, filteredData, activeSort, isSorted, sortedData }) => {
+const mapStateToProps = ({ data, isFiltered, filteredData, activeSort, isSorted, sortedData }) => {
   return {
     data,
-    activePage,
     isFiltered,
     filteredData,
     activeSort,
